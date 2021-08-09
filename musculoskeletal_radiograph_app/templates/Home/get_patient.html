@@ -1,0 +1,108 @@
+{% extends 'Home/layout.html' %}
+
+
+{% block page_title %}
+    Patient - {{ patient.id }}
+{% endblock page_title %}
+
+{% block main_content %}
+
+<main>
+    <div class="container py-4">
+        <div class="form-group">
+            {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                    <div class="alert alert-success" style="margin-top:10px">{{ message }}. Your Patient ID is  {{ patient.id }}</div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+        </div>  
+    <div class="row">
+        <div class="col-4">
+          <div class="card" style="width: 20rem;">
+            <img src="../media/{{ patient.image_url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h6 class="card-title"><u>Patient ID</u> : {{ patient.id }} </h6>
+              <h6 class="card-title"><u>First Name</u> : {{ patient.first_name }} </h6>
+              <h6 class="card-title"><u>Last Name</u> : {{ patient.sur_name }} </h6>
+              <h6 class="card-title"><u>Email</u> : {{ patient.email_address }}</h6>
+              <h6 class="card-title"><u>Telphone</u> : 0{{ patient.phone_number }}  </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="row">
+              <div class="col-12">
+                {% url 'get_patient' patient.id as action_path %}
+                <form role="form" action="{{ action_path }}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.image_url }}
+                    <div class="d-grid gap-2 mt-2">
+                      <button class="btn btn-primary" type="submit">Upload the musculoskeletal radiograph for detection</button>
+                    </div>
+                </form>
+              </div>
+            </div>     
+            <div class="row row-cols-1 row-cols-md-3 g-2">
+                {% for radiograph in radiographs %} 
+                    <div class="col">
+                        <div class="card h-100">
+                        <img src="../media/{{ radiograph.image_url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="card-title"><u>Uploaded Date</u></h6>
+                            <p class="card-text">{{ radiograph.created_date }}</p>
+                            <h6 class="card-title"><u>Prediction</u></h6>
+                            <p class="card-text">{{ radiograph.prediction }}</p>
+                            <a href="{% url 'get_radiograph' patient.id radiograph.id %}" class="btn btn-primary">More Detail</a> 
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <br />
+                <nav aria-label="Page navigation example ml-5">
+                    <ul class="pagination justify-content-center">
+                
+                        {% if radiographs.has_previous %}
+                            <li class="page-item" >
+                            <a class="page-link" href="?page={{ radiographs.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for i in nums %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ forloop.counter }}">
+                                    {{ forloop.counter }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        
+                        {% if radiographs.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ radiographs.next_page_number }}">Next</a></li>
+                        {% endif %}           
+                    </ul>
+                </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+    
+      <footer class="bg-light text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3 text-light" style="background-color: #0d6efd;">
+          © 2021 Copyright:
+          <a class="text-light" href="https://github.com/olowoyinka/">github.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+
+    </div>
+</main>
+
+{% endblock main_content %}

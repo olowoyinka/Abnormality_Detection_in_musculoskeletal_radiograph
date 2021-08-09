@@ -1,0 +1,24 @@
+{% extends 'Home/layout.html' %}
+
+{% block page_title %}
+    Welcome
+{% endblock page_title %}
+
+{% block main_content %}
+    <div class="p-5 mb-4 bg-light rounded-3" style="background-image: url(./media/R6.jpg);">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold text-light">MUSCULOSKELETAL RADIOGRAPH</h1>
+            <p class="col-md-8 fs-4 text-light">A web-based solution that helps detect normality and abnormality in musculoskeletal radiograph, thus allowing: quicker diagnoses & treatment for sickest patients and, could help combat radiologist fatigue</p>
+            <a class="btn btn-primary btn-lg text-center me-3" href="{% url 'register_patient' %}" >Register new patient</a> <a class="btn btn-primary btn-lg" href="{% url 'patient' %}">Search patient</a>
+        </div>
+    </div>
+
+  <footer class="bg-light text-center text-lg-start fixed-bottom container">
+    <!-- Copyright -->
+    <div class="text-center p-3 text-light" style="background-color: #0d6efd;">
+      © 2021 Copyright:
+      <a class="text-light" href="https://github.com/olowoyinka/">github.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+{% endblock main_content %}

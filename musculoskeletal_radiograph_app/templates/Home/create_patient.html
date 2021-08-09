@@ -1,0 +1,70 @@
+{% extends 'Home/layout.html' %}
+
+
+{% block page_title %}
+    Register Patient
+{% endblock page_title %}
+
+{% block main_content %}
+
+<div class="container">
+    <div class="row text-center mb-3">
+      <h4>REGISTER NEW PATIENT</h4>
+      <hr />
+    </div>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8 text-center">
+        {% url 'create_patient' as action_path %}
+        <form role="form" action="{{ action_path }}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {% if messages %}
+                  {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                    {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-floating mb-3">
+                {{ form.first_name }}
+                <label for="floatingInput">First name</label>
+            </div>
+            <div class="form-floating mb-3">
+                {{ form.sur_name }}
+                <label for="floatingPassword">Last name</label>
+            </div>
+            <div class="form-floating mb-3">
+                {{ form.phone_number }}
+                <label for="floatingInput">Phone number</label>
+            </div>
+            <div class="form-floating mb-3">
+                {{ form.email_address }}
+                <label for="floatingPassword">Email address</label>
+            </div>
+            <div class="mb-3">
+                {{ form.image_url }}
+            </div>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="submit">sign up new patient</button>
+             </div>
+        </form>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+
+  <footer class="bg-light text-center text-lg-start fixed-bottom container">
+    <!-- Copyright -->
+    <div class="text-center p-3 text-light" style="background-color: #0d6efd;">
+      © 2021 Copyright:
+      <a class="text-light" href="https://github.com/olowoyinka/">github.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+
+{% endblock main_content %}
