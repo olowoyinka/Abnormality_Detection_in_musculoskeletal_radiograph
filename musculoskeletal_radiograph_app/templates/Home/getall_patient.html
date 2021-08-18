@@ -35,17 +35,20 @@
 
         {% if patients %}
             {% for patient in patients %}
-            <tr>
-                <td>
-                    <div class="text-center">
-                    <img src="./media/{{ patient.image_url }}" width="150px" class="rounded" alt="...">
-                    </div>
-                </td>
-                <th scope="row">{{ patient.id }}</th>
-                <td>{{ patient.sur_name }}</td>
-                <td>{{ patient.first_name }}</td>
-                <td><a href="{% url 'get_patient' patient.id %}" class="btn btn-primary">View Detail</a></td> 
-            </tr>
+              <tr>
+                <a href="{% url 'get_patient' patient.id %}">
+                  <td>
+                      <div class="text-center">
+                      <img src="./media/{{ patient.image_url }}" width="150px" class="rounded" alt="...">
+                      </div>
+                  </td>
+                  <th scope="row">{{ patient.id }}</th>
+                  <td>{{ patient.sur_name }}</td>
+                  <td>{{ patient.first_name }}</td>
+                  <td><a href="{% url 'get_patient' patient.id %}" class="btn btn-primary">View Detail</a></td>
+                </a> 
+              </tr>
+            
             {% endfor %}
         {% endif %}
       </tbody>
@@ -61,6 +64,28 @@
     </table>
 
     <br />
+    <nav aria-label="Page navigation example ml-5">
+      <ul class="pagination justify-content-center">
+  
+          {% if patients.has_previous %}
+              <li class="page-item" >
+              <a class="page-link" href="?page={{ patients.previous_page_number }}">Previous</a>
+              </li>
+          {% endif %}
+          
+          {% for i in nums %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ forloop.counter }}">
+                      {{ forloop.counter }}
+                  </a>
+              </li>
+          {% endfor %}
+          
+          {% if patients.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ patients.next_page_number }}">Next</a></li>
+          {% endif %}           
+      </ul>
+  </nav>
   </div>
 
 

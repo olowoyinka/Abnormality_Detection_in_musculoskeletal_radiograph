@@ -21,7 +21,14 @@ def HomePage(request):
 
 def GetAllPatient(request):
     if request.method != "POST":
-        return render(request, "home/getall_patient.html")
+        patient_obj = Patient.objects.all().order_by('-id')
+        p = Paginator(patient_obj, 10)
+
+        page = request.GET.get('page')
+        patients = p.get_page(page)
+        nums = "a" * patients.paginator.num_pages
+
+        return render(request, "home/getall_patient.html", { "patients" : patients, 'nums' : nums })
     else:
         search = request.POST['search']
 
